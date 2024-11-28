@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Button, Field, Textarea, tokens, makeStyles } from "@fluentui/react-components";
+import { Button, tokens, makeStyles } from "@fluentui/react-components";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles({
@@ -21,29 +21,38 @@ const useStyles = makeStyles({
     marginRight: "20px",
     maxWidth: "50%",
   },
+  processDocumentButton: {
+    marginTop: "10px",
+  },
 });
 
 const TextInsertion = (props) => {
-  const [text, setText] = useState("Some text.");
+  const [text] = useState("Some text.");
 
   const handleTextInsertion = async () => {
     await props.insertText(text);
   };
 
-  const handleTextChange = async (event) => {
-    setText(event.target.value);
-  };
+  // const handleTextChange = async (event) => {
+  //   setText(event.target.value);
+  // };
 
   const styles = useStyles();
 
   return (
     <div className={styles.textPromptAndInsertion}>
-      <Field className={styles.textAreaField} size="large" label="Enter text to be inserted into the document.">
+      {/* <Field className={styles.textAreaField} size="large" label="Enter text to be inserted into the document.">
         <Textarea size="large" value={text} onChange={handleTextChange} />
       </Field>
-      <Field className={styles.instructions}>Click the button to insert text.</Field>
-      <Button appearance="primary" disabled={false} size="large" onClick={handleTextInsertion}>
-        Insert text
+      <Field className={styles.instructions}>Click the button to insert text.</Field> */}
+      <Button
+        className={styles.processDocumentButton}
+        appearance="primary"
+        disabled={false}
+        size="large"
+        onClick={handleTextInsertion}
+      >
+        Process document
       </Button>
     </div>
   );

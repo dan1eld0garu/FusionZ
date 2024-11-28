@@ -23,6 +23,9 @@ module.exports = async (env, options) => {
       taskpane: ["./src/taskpane/index.jsx", "./src/taskpane/taskpane.html"],
       commands: "./src/commands/commands.js",
     },
+    optimization: {
+      runtimeChunk: "single",
+    },
     output: {
       clean: true,
     },
