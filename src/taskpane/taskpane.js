@@ -99,6 +99,8 @@ export async function insertText(text) {
 
     // 2) Search in range and apply edits. Enable track changes
     context.document.body.trackRevisions = true;
+    context.document.changeTrackingMode = Word.ChangeTrackingMode.trackAll;
+
     const allSearchResults = [];
 
     for (const clause in sample_response) {
@@ -109,12 +111,18 @@ export async function insertText(text) {
             const action = actions[actionKey];
             if (action.action === "replace") {
               for (const change of action.changes) {
+                if (!change.replace || typeof change.replace !== "string" || change.replace.trim() === "") {
+                  console.error("Invalid search term:", change.replace);
+                  continue;
+                }
+
                 const searchResults = clauseRangeResult.range.search(change.replace, {
                   matchCase: true,
                   matchWholeWord: true,
                 });
+
                 searchResults.load("items");
-                console.log("pushing" + searchResults + " " + change);
+                console.log("Pushing search results for:", change.replace);
                 allSearchResults.push({ searchResults, change });
               }
             }
@@ -131,15 +139,13 @@ export async function insertText(text) {
       }
     }
 
-    console.log("After sync");
-
     for (const result of allSearchResults) {
-      const { searchResults } = result;
+      const { searchResults, change } = result;
       if (searchResults.items.length > 0) {
-        console.log("We have some search result" + searchResults[0]);
-        // for (let i = 0; i < searchResults.items.length; i++) {
-        //   searchResults.items[i].insertText(change.with, Word.InsertLocation.replace);
-        // }
+        console.log("We have some search result" + searchResults.items[0]);
+        for (let i = 0; i < searchResults.items.length; i++) {
+          searchResults.items[i].insertText(change.with, Word.InsertLocation.replace);
+        }
       } else {
         console.log("No result");
       }
