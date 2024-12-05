@@ -26,11 +26,15 @@ const useStyles = makeStyles({
   },
 });
 
-const TextInsertion = (props) => {
+const FusionZPane = (props) => {
   const [text] = useState("Some text.");
 
-  const handleTextInsertion = async () => {
-    await props.insertText(text);
+  const processDocument = async () => {
+    await props.processDocument(text);
+  };
+
+  const clearEdits = async () => {
+    await props.clearEdits(text);
   };
 
   // const handleTextChange = async (event) => {
@@ -50,16 +54,26 @@ const TextInsertion = (props) => {
         appearance="primary"
         disabled={false}
         size="large"
-        onClick={handleTextInsertion}
+        onClick={processDocument}
       >
         Process document
+      </Button>
+      <Button
+        className={styles.processDocumentButton}
+        appearance="primary"
+        disabled={false}
+        size="large"
+        onClick={clearEdits}
+      >
+        Reject all
       </Button>
     </div>
   );
 };
 
-TextInsertion.propTypes = {
-  insertText: PropTypes.func.isRequired,
+FusionZPane.propTypes = {
+  processDocument: PropTypes.func.isRequired,
+  clearEdits: PropTypes.func.isRequired,
 };
 
-export default TextInsertion;
+export default FusionZPane;

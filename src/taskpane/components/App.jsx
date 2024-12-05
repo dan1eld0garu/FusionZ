@@ -1,9 +1,9 @@
 import * as React from "react";
 import PropTypes from "prop-types";
 import Header from "./Header";
-import TextInsertion from "./TextInsertion";
+import FusionZPane from "./TextInsertion";
 import { makeStyles } from "@fluentui/react-components";
-import { insertText } from "../taskpane";
+import { processDocument, clearEdits } from "../taskpane";
 
 const useStyles = makeStyles({
   root: {
@@ -21,7 +21,7 @@ const App = (props) => {
     <div className={styles.root}>
       <Header logo="assets/Fusionz_logo_symbol.png" title={title} message="FusionZ" />
       {/* <HeroList message="Discover what this add-in can do for you today!" items={listItems} /> */}
-      <TextInsertion insertText={insertText} />
+      <FusionZPane processDocument={processDocument} clearEdits={clearEdits} />
     </div>
   );
 };
